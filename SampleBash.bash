@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This bash script is from a OS Course Assignment. It executes the specified program
+# with arugments from the cmd line, user input, or file
+
 OSTYPE=`uname -s`
 VERSION=$1
 KEEP_RUNNING="t"
@@ -25,68 +28,62 @@ function readFile {
                         DEADLINE="${lineArray[1]}"
                         SIZE="${lineArray[2]}"
 			
-			#echo $VERSION
-                        #echo $THREADS
-                        #echo $DEADLINE
-                        #echo $SIZE
 			callProgram
 	done<"$FILENAME"
 
 }
 
+
 function callProgram {
 	if [ "$VERSION" = "A1" -a "$OSTYPE" = "MINGW64_NT-10.0-17763" ]; then
-                        echo "Running A1"
-                        if [ "$NEED_INFO" = "t" ]; then
+	    echo "Running A1"
+	    if [ "$NEED_INFO" = "t" ]; then
 			getProgramInfo
-			fi
-                        ./partA1.exe $THREADS $DEADLINE $SIZE
-                elif [ "$VERSION" = "A2" -a "$OSTYPE" = "Linux" ]; then
-                        echo "Running A2"
-                        if [ "$NEED_INFO" = "t" ]; then
-                        getProgramInfo
-                        fi
-			./partA2 $THREADS $DEADLINE $SIZE
-                elif [ "$VERSION" = "A3" ]; then
-                        echo "This would run A3"
-                        if [ "$NEED_INFO" = "t" ]; then
-                        getProgramInfo
-                        fi
-			#add functionality to run A3
-                        
-                elif [ "$VERSION" = "A4" ]; then
-                        echo "This would run A4"
+		fi
+        ./partA1.exe $THREADS $DEADLINE $SIZE
+    elif [ "$VERSION" = "A2" -a "$OSTYPE" = "Linux" ]; then
+            echo "Running A2"
+            if [ "$NEED_INFO" = "t" ]; then
+            	getProgramInfo
+            fi
+		./partA2 $THREADS $DEADLINE $SIZE
+    elif [ "$VERSION" = "A3" ]; then
+            echo "This would run A3"
+            if [ "$NEED_INFO" = "t" ]; then
+            	getProgramInfo
+            fi
+        	./partA3 $THREADS $DEADLINE $SIZE                
+    elif [ "$VERSION" = "A4" ]; then
+            echo "This would run A4"
 			if [ "$NEED_INFO" = "t" ]; then
-                        getProgramInfo
+            	getProgramInfo
 			fi
-		#add functionality to run A4
-                elif [ "$VERSION" = "Exit" ]; then
+			./partA4 $THREADS $DEADLINE $SIZE
+    elif [ "$VERSION" = "Exit" ]; then
 			exit 0;
 
-                else
-                        echo "Invalid input"
+    else
+          	echo "Invalid input"
 			exit 1;
-
-                fi
-
-
+			fi
 }
 
 
 
-#if no cmd line args are provided
+#IF not cmd args, prompt user
 if [ "$1" = "" ]; then
 	while [ "$KEEP_RUNNING" = "t" ]; do	
 	getProgramInfo	
 	callProgram
 	done
 fi	
+#IF 2nd arg is a file
 if [ -f $2  ]; then
 	echo "$2"
 	FILENAME="/dev/stdin"
 	readFile 
 else
-#if no file present, verify args
+#IF no file present, verify args
 	if [ "$2" = "" -o "$3" = "" -o "$4" = "" ]; then
 	 	echo "Not enough arguements provided"
 	else

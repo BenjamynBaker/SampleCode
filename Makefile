@@ -1,3 +1,6 @@
+# This Makefile is from an OS Course lab focusing on 
+# cross compiling and linking external libraries
+
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -std=gnu90 -Wall -pedantic
@@ -5,8 +8,9 @@ UNAME = $(shell uname)
 CROSS_COMPILE=arm-linux-gnueabi-
 ARCH= $(shell uname -m)
 
-#linux files
+#IF LINUX OS
 ifeq ("$(shell uname)","Linux") 
+
 all: sample-linux sample-raspi
 
 sample-linux: sample-linux.o linux-lib.a 
@@ -40,7 +44,7 @@ raspi-lib.a: raspi-lib.o
 	ar -rc libraspi-lib.a raspi-lib.o
 endif
 
-#window files
+#IF WINDOW OS
 ifeq ("$(shell uname)","MINGW64_NT-10.0-17763")
 
 wthread: wthread.o thread.o
