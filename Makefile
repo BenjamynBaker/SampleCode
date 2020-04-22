@@ -1,7 +1,3 @@
-#Benjamyn Baker
-#BGB577
-#11102592
-
 CC = gcc
 CFLAGS = -g
 CPPFLAGS = -std=gnu90 -Wall -pedantic

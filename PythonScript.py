@@ -2,18 +2,24 @@ import json as json
 import csv as csv
 import pandas as pd
 
+# This Python Script was used to cleanse and sort data for the AirBnB chloropleth out output 
+# a CSV with totals for each neighbourhood
+# In hindsight, using a hashtable to store the neighbourhoods would have been a more efficient solution
+
+# Get the names of all available neighbourhoods
 with open("Community Boundaries.geojson") as file:
     data = json.load(file)
 
+
+# Create a list for each neighbour hood with the properties:
+# [ name, count, numratings, rating, people, bedrooms, price]
 name_list = []
 for item in data["features"]:
     name_list.append(item["properties"]["name"])
 
 name_list = [[i] for i in name_list]
 
-# [ name, count, numratings, rating, people, bedrooms, price]
-#set list values
-
+#initialize list values
 for item in name_list:
     #count
     item.append(0)
@@ -49,8 +55,8 @@ format2 = ["tomslee_airbnb_calgary_1055_2017-04-10.csv", "tomslee_airbnb_calgary
 
 format3 = ["Community_Crime_and_Disorder_Statistics (1).csv", "Community_Crime_and_Disorder_Statistics (2).csv"]
 
+# FORMAT 1:
 # [ name, numrating, rating, people, bedrooms, price,]
-#read from csv
 for file in format1:
     df = pd.read_csv(file, header=0, usecols=[4, 5, 6, 7, 8, 9])
     dfArray = df.to_numpy()
@@ -58,7 +64,7 @@ for file in format1:
     # print(dfArray)
 
 
-
+    #Add values to list
     for item in dfArray:
         for nbhood in name_list:
             if item[0] == nbhood[0]:
@@ -84,8 +90,7 @@ for file in format1:
 
 
 
-
-
+# FORMAT 2
 for file in format2:
     df = pd.read_csv(file, header=0, usecols=[7, 8, 9, 10, 11, 13])
     dfArray = df.to_numpy()
@@ -93,7 +98,7 @@ for file in format2:
     # print(dfArray)
 
 
-
+    # add items to list
     for item in dfArray:
         for nbhood in name_list:
             if item[0] == nbhood[0]:
@@ -158,10 +163,10 @@ for file in format3:
 
 
 
-print(name_list)
 
+# Output CSV
 header = ["Neighbourhood", "Count", "NumRatings", "Rating", "People", "Bedrooms", "Price", "Crime", "Population"]
-with open("output_3.csv", 'w') as file:
+with open("output.csv", 'w') as file:
     writer = csv.writer(file)
     writer.writerow(header)
     for item in name_list:

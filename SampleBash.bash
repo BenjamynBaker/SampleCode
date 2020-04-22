@@ -1,12 +1,5 @@
 #!/bin/bash
 
-#Benjamyn Baker
-#11102592
-#BGB577
-#Spencer Theissen
-#11229984
-#SDT747
-
 OSTYPE=`uname -s`
 VERSION=$1
 KEEP_RUNNING="t"
